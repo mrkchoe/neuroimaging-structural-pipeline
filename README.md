@@ -6,59 +6,59 @@ Production-style structural MRI processing pipeline that ingests T1-weighted DIC
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         DICOM Input                              │
+│                         DICOM Input                             │
 │                    (T1-weighted MRI scans)                      │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    INGESTION MODULE                              │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  DicomProcessor                                           │  │
-│  │  • Validate modality (T1 structural)                     │  │
-│  │  • Convert DICOM → NIfTI (dcm2niix)                      │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                    INGESTION MODULE                             │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  DicomProcessor                                          │   │
+│  │  • Validate modality (T1 structural)                     │   │
+│  │  • Convert DICOM → NIfTI (dcm2niix)                      │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    PROCESSING MODULE                             │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  FreeSurferRunner                                         │  │
-│  │  • Run recon-all via Docker                               │  │
-│  │  • Track runtime and status                               │  │
-│  │  • Output: FreeSurfer subject directory                   │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                    PROCESSING MODULE                            │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  FreeSurferRunner                                        │   │
+│  │  • Run recon-all via Docker                              │   │ 
+│  │  • Track runtime and status                              │   │
+│  │  • Output: FreeSurfer subject directory                  │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    EXTRACTION MODULE                             │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  StatsParser                                             │  │
-│  │  • Parse aseg.stats (subcortical volumes)               │  │
-│  │  • Parse aparc.stats (cortical thickness)                │  │
-│  │  • Extract: ICV, hippocampus, amygdala, thickness       │  │
-│  │  • Output: Tidy pandas DataFrame                         │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                    EXTRACTION MODULE                            │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  StatsParser                                             │   │
+│  │  • Parse aseg.stats (subcortical volumes)                │   │
+│  │  • Parse aparc.stats (cortical thickness)                │   │
+│  │  • Extract: ICV, hippocampus, amygdala, thickness        │   │
+│  │  • Output: Tidy pandas DataFrame                         │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    DATABASE MODULE                               │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │  DatabaseLoader                                          │  │
-│  │  • SQLAlchemy ORM                                        │  │
-│  │  • Normalized schema:                                    │  │
-│  │    - subjects (subject metadata)                         │  │
-│  │    - scans (scan sessions)                               │  │
-│  │    - volumetrics (measurements)                          │  │
-│  └──────────────────────────────────────────────────────────┘  │
+│                    DATABASE MODULE                              │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  DatabaseLoader                                          │   │
+│  │  • SQLAlchemy ORM                                        │   │
+│  │  • Normalized schema:                                    │   │
+│  │    - subjects (subject metadata)                         │   │
+│  │    - scans (scan sessions)                               │   │
+│  │    - volumetrics (measurements)                          │   │
+│  └──────────────────────────────────────────────────────────┘   │
 └────────────────────────────┬────────────────────────────────────┘
                              │
                              ▼
 ┌─────────────────────────────────────────────────────────────────┐
-│                    PostgreSQL Database                           │
+│                    PostgreSQL Database                          │
 │              (Structured volumetric data)                       │
 └─────────────────────────────────────────────────────────────────┘
 ```
