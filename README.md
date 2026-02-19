@@ -306,16 +306,3 @@ Ensure `dcm2niix` is installed and in PATH:
 which dcm2niix
 ```
 
-## License
-
-[Specify your license]
-
-## Contributing
-
-[Contributing guidelines]
-
-## Citation
-
-If you use this pipeline in your research, please cite:
-
-[Citation information]
