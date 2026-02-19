@@ -53,7 +53,9 @@ class DicomProcessor:
         if "MR" not in modalities:
             return False, f"Expected MR modality, found: {modalities}"
 
-        logger.info(f"Validated DICOM directory: {len(dicom_files)} files, modality: {modalities}")
+        logger.info(
+            f"Validated DICOM directory: {len(dicom_files)} files, modality: {modalities}"
+        )
         return True, None
 
     def convert_to_nifti(
@@ -98,7 +100,9 @@ class DicomProcessor:
                 logger.info(f"Successfully converted DICOM to: {nifti_file}")
                 return nifti_file
             else:
-                logger.error(f"dcm2niix completed but output file not found: {nifti_file}")
+                logger.error(
+                    f"dcm2niix completed but output file not found: {nifti_file}"
+                )
                 return None
 
         except subprocess.CalledProcessError as e:

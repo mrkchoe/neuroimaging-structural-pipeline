@@ -5,7 +5,12 @@ from pathlib import Path
 
 import click
 
-from .config import get_database_url, get_subjects_dir, get_freesurfer_home, get_use_docker
+from .config import (
+    get_database_url,
+    get_subjects_dir,
+    get_freesurfer_home,
+    get_use_docker,
+)
 from .database.loader import DatabaseLoader
 from .pipeline import Pipeline
 
@@ -22,7 +27,9 @@ def cli():
 
 
 @cli.command()
-@click.option("--dicom-dir", required=True, type=click.Path(exists=True, path_type=Path))
+@click.option(
+    "--dicom-dir", required=True, type=click.Path(exists=True, path_type=Path)
+)
 @click.option("--subject-id", required=True, type=str)
 @click.option("--database-url", type=str, default=None)
 @click.option("--output-dir", type=click.Path(path_type=Path), default=None)

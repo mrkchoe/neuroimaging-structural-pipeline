@@ -82,7 +82,9 @@ class DatabaseLoader:
 
             # Extract metrics from DataFrame (should be single row)
             if len(metrics_df) != 1:
-                raise ValueError(f"Expected single row DataFrame, got {len(metrics_df)}")
+                raise ValueError(
+                    f"Expected single row DataFrame, got {len(metrics_df)}"
+                )
 
             row = metrics_df.iloc[0]
 
@@ -106,7 +108,9 @@ class DatabaseLoader:
             session.add(volumetric)
             session.commit()
 
-            logger.info(f"Loaded metrics for subject {subject_id}, volumetric_id={volumetric.id}")
+            logger.info(
+                f"Loaded metrics for subject {subject_id}, volumetric_id={volumetric.id}"
+            )
             return volumetric.id
 
         except Exception as e:

@@ -47,7 +47,9 @@ class FreeSurferRunner:
         start_time = time.time()
 
         if use_docker:
-            return self._run_recon_all_docker(nifti_file, subject_id, docker_image, start_time)
+            return self._run_recon_all_docker(
+                nifti_file, subject_id, docker_image, start_time
+            )
         else:
             return self._run_recon_all_native(nifti_file, subject_id, start_time)
 
@@ -84,12 +86,20 @@ class FreeSurferRunner:
         try:
             logger.info(f"Running FreeSurfer recon-all for subject {subject_id}")
             result = subprocess.run(
-                cmd, capture_output=True, text=True, check=True, timeout=36000  # 10 hours
+                cmd,
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=36000,  # 10 hours
             )
             runtime = time.time() - start_time
 
             output_dir = Path(self.subjects_dir) / subject_id
-            status = "completed" if (output_dir / "scripts" / "recon-all.done").exists() else "failed"
+            status = (
+                "completed"
+                if (output_dir / "scripts" / "recon-all.done").exists()
+                else "failed"
+            )
 
             logger.info(f"FreeSurfer completed: {status}, runtime: {runtime:.1f}s")
 
@@ -142,14 +152,20 @@ class FreeSurferRunner:
         ]
 
         try:
-            logger.info(f"Running FreeSurfer recon-all natively for subject {subject_id}")
+            logger.info(
+                f"Running FreeSurfer recon-all natively for subject {subject_id}"
+            )
             result = subprocess.run(
                 cmd, env=env, capture_output=True, text=True, check=True, timeout=36000
             )
             runtime = time.time() - start_time
 
             output_dir = Path(self.subjects_dir) / subject_id
-            status = "completed" if (output_dir / "scripts" / "recon-all.done").exists() else "failed"
+            status = (
+                "completed"
+                if (output_dir / "scripts" / "recon-all.done").exists()
+                else "failed"
+            )
 
             return {
                 "status": status,

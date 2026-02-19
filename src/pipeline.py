@@ -89,7 +89,9 @@ class Pipeline:
 
         if freesurfer_result["status"] != "completed":
             results["status"] = "failed"
-            results["errors"].append(f"FreeSurfer processing failed: {freesurfer_result.get('stderr')}")
+            results["errors"].append(
+                f"FreeSurfer processing failed: {freesurfer_result.get('stderr')}"
+            )
             results["freesurfer_result"] = freesurfer_result
             return results
 

@@ -34,7 +34,9 @@ class Scan(Base):
     __tablename__ = "scans"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    subject_id = Column(String(100), ForeignKey("subjects.subject_id"), nullable=False, index=True)
+    subject_id = Column(
+        String(100), ForeignKey("subjects.subject_id"), nullable=False, index=True
+    )
     scan_date = Column(DateTime, nullable=True)
     modality = Column(String(50), nullable=False, default="T1w")
     nifti_path = Column(String(500), nullable=True)
@@ -42,12 +44,16 @@ class Scan(Base):
     processing_runtime_seconds = Column(Float, nullable=True)
     freesurfer_output_dir = Column(String(500), nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
-    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False)
+    updated_at = Column(
+        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, nullable=False
+    )
 
     subject = relationship("Subject", back_populates="scans")
 
     def __repr__(self):
-        return f"<Scan(subject_id='{self.subject_id}', status='{self.processing_status}')>"
+        return (
+            f"<Scan(subject_id='{self.subject_id}', status='{self.processing_status}')>"
+        )
 
 
 class Volumetric(Base):
@@ -56,7 +62,9 @@ class Volumetric(Base):
     __tablename__ = "volumetrics"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    subject_id = Column(String(100), ForeignKey("subjects.subject_id"), nullable=False, index=True)
+    subject_id = Column(
+        String(100), ForeignKey("subjects.subject_id"), nullable=False, index=True
+    )
     scan_id = Column(Integer, ForeignKey("scans.id"), nullable=True)
 
     # Subcortical volumes (mm^3)
@@ -67,12 +75,24 @@ class Volumetric(Base):
     amygdala_right = Column(Float, nullable=True)
 
     # Cortical metrics
-    mean_thickness_lh = Column(Float, nullable=True, comment="Left hemisphere mean thickness (mm)")
-    mean_thickness_rh = Column(Float, nullable=True, comment="Right hemisphere mean thickness (mm)")
-    total_area_lh = Column(Float, nullable=True, comment="Left hemisphere total area (mm^2)")
-    total_area_rh = Column(Float, nullable=True, comment="Right hemisphere total area (mm^2)")
-    gray_volume_lh = Column(Float, nullable=True, comment="Left hemisphere gray matter volume (mm^3)")
-    gray_volume_rh = Column(Float, nullable=True, comment="Right hemisphere gray matter volume (mm^3)")
+    mean_thickness_lh = Column(
+        Float, nullable=True, comment="Left hemisphere mean thickness (mm)"
+    )
+    mean_thickness_rh = Column(
+        Float, nullable=True, comment="Right hemisphere mean thickness (mm)"
+    )
+    total_area_lh = Column(
+        Float, nullable=True, comment="Left hemisphere total area (mm^2)"
+    )
+    total_area_rh = Column(
+        Float, nullable=True, comment="Right hemisphere total area (mm^2)"
+    )
+    gray_volume_lh = Column(
+        Float, nullable=True, comment="Left hemisphere gray matter volume (mm^3)"
+    )
+    gray_volume_rh = Column(
+        Float, nullable=True, comment="Right hemisphere gray matter volume (mm^3)"
+    )
 
     created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
 

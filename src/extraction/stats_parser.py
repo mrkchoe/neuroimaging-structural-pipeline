@@ -41,7 +41,9 @@ class StatsParser:
 
         # Extract intracranial volume (ICV)
         # Format: "# Intracranial Vol = 1500000.00 mm^3"
-        icv_match = re.search(r"Intracranial Vol\s*=\s*([\d.]+)", content, re.IGNORECASE)
+        icv_match = re.search(
+            r"Intracranial Vol\s*=\s*([\d.]+)", content, re.IGNORECASE
+        )
         if icv_match:
             metrics["icv"] = float(icv_match.group(1))
 
@@ -60,13 +62,25 @@ class StatsParser:
                     volume = parts[3]  # Volume_mm3 column
                     try:
                         vol_float = float(volume)
-                        if "Left-Hippocampus" in struct_name or struct_name == "Left-Hippocampus":
+                        if (
+                            "Left-Hippocampus" in struct_name
+                            or struct_name == "Left-Hippocampus"
+                        ):
                             metrics["hippocampus_left"] = vol_float
-                        elif "Right-Hippocampus" in struct_name or struct_name == "Right-Hippocampus":
+                        elif (
+                            "Right-Hippocampus" in struct_name
+                            or struct_name == "Right-Hippocampus"
+                        ):
                             metrics["hippocampus_right"] = vol_float
-                        elif "Left-Amygdala" in struct_name or struct_name == "Left-Amygdala":
+                        elif (
+                            "Left-Amygdala" in struct_name
+                            or struct_name == "Left-Amygdala"
+                        ):
                             metrics["amygdala_left"] = vol_float
-                        elif "Right-Amygdala" in struct_name or struct_name == "Right-Amygdala":
+                        elif (
+                            "Right-Amygdala" in struct_name
+                            or struct_name == "Right-Amygdala"
+                        ):
                             metrics["amygdala_right"] = vol_float
                     except (ValueError, IndexError):
                         continue
@@ -74,28 +88,36 @@ class StatsParser:
         # Fallback: try regex patterns if table parsing didn't work
         if "hippocampus_left" not in metrics:
             lh_hippo_match = re.search(
-                r"Left-Hippocampus[^\d]*(\d+(?:\.\d+)?)", content, re.IGNORECASE | re.MULTILINE
+                r"Left-Hippocampus[^\d]*(\d+(?:\.\d+)?)",
+                content,
+                re.IGNORECASE | re.MULTILINE,
             )
             if lh_hippo_match:
                 metrics["hippocampus_left"] = float(lh_hippo_match.group(1))
 
         if "hippocampus_right" not in metrics:
             rh_hippo_match = re.search(
-                r"Right-Hippocampus[^\d]*(\d+(?:\.\d+)?)", content, re.IGNORECASE | re.MULTILINE
+                r"Right-Hippocampus[^\d]*(\d+(?:\.\d+)?)",
+                content,
+                re.IGNORECASE | re.MULTILINE,
             )
             if rh_hippo_match:
                 metrics["hippocampus_right"] = float(rh_hippo_match.group(1))
 
         if "amygdala_left" not in metrics:
             lh_amyg_match = re.search(
-                r"Left-Amygdala[^\d]*(\d+(?:\.\d+)?)", content, re.IGNORECASE | re.MULTILINE
+                r"Left-Amygdala[^\d]*(\d+(?:\.\d+)?)",
+                content,
+                re.IGNORECASE | re.MULTILINE,
             )
             if lh_amyg_match:
                 metrics["amygdala_left"] = float(lh_amyg_match.group(1))
 
         if "amygdala_right" not in metrics:
             rh_amyg_match = re.search(
-                r"Right-Amygdala[^\d]*(\d+(?:\.\d+)?)", content, re.IGNORECASE | re.MULTILINE
+                r"Right-Amygdala[^\d]*(\d+(?:\.\d+)?)",
+                content,
+                re.IGNORECASE | re.MULTILINE,
             )
             if rh_amyg_match:
                 metrics["amygdala_right"] = float(rh_amyg_match.group(1))
@@ -103,7 +125,9 @@ class StatsParser:
         logger.info(f"Parsed aseg.stats for {subject_id}: {len(metrics)} metrics")
         return metrics
 
-    def parse_aparc_stats(self, subject_id: str, hemi: str = "both") -> Dict[str, float]:
+    def parse_aparc_stats(
+        self, subject_id: str, hemi: str = "both"
+    ) -> Dict[str, float]:
         """Parse aparc.stats files for cortical thickness metrics.
 
         Args:
@@ -141,7 +165,9 @@ class StatsParser:
 
             # Extract total gray matter volume
             grayvol_match = re.search(
-                r"total gray matter volume\s+=\s+([\d.]+)\s+mm\^3", content, re.IGNORECASE
+                r"total gray matter volume\s+=\s+([\d.]+)\s+mm\^3",
+                content,
+                re.IGNORECASE,
             )
             if grayvol_match:
                 metrics[f"gray_volume_{h}"] = float(grayvol_match.group(1))
