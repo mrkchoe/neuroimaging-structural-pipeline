@@ -1,0 +1,3 @@
+subject_id	dicom_dir	out_dir
+sub-001	/path/to/dicom/sub-001	/path/to/output/sub-001
+sub-002	/path/to/dicom/sub-002	/path/to/output/sub-002

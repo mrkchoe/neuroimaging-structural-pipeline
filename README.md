@@ -287,6 +287,13 @@ sample_data/
 └── ...
 ```
 
+## HPC (Slurm)
+
+To run the pipeline at scale on a Slurm cluster (one subject per job, optional Apptainer/Singularity):
+
+- See **[hpc/slurm/README.md](hpc/slurm/README.md)** for prerequisites, manifest format, license handling, and monitoring.
+- Use `hpc/slurm/submit_array.sh <manifest.tsv>` to submit an array job, or `run_one_subject.sbatch` for single-subject debug.
+
 ## Troubleshooting
 
 ### FreeSurfer License
